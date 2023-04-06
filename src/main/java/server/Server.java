@@ -10,9 +10,19 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Classe pour le serveur qui gere les connexions clients et qui traite les commandes reçues.
+ */
 public class Server {
 
+    /**
+     * Ligne commande inscription.
+     */
     public final static String REGISTER_COMMAND = "INSCRIRE";
+
+    /**
+     * Ligne commande chargement des cours.
+     */
     public final static String LOAD_COMMAND = "CHARGER";
     private final ServerSocket server;
     private Socket client;
@@ -20,22 +30,42 @@ public class Server {
     private ObjectOutputStream objectOutputStream;
     private final ArrayList<EventHandler> handlers;
 
+    /**
+     * Constructeur qui initialise le socket serveur et la liste des gestionnaires d'événements.
+     *
+     * @param port numéro de port sur lequel le serveur doit écouter les connexions de clients.
+     * @throws IOException si une erreur se produit lors de la création du socket serveur.
+     */
     public Server(int port) throws IOException {
         this.server = new ServerSocket(port, 1);
         this.handlers = new ArrayList<EventHandler>();
         this.addEventHandler(this::handleEvents);
     }
 
+    /**
+     * Ajoute un gestionnaire d'événements à la liste des gestionnaires.
+     *
+     * @param h le gestionnaire d'événements à ajouter.
+     */
     public void addEventHandler(EventHandler h) {
         this.handlers.add(h);
     }
 
+    /**
+     * Alerte les gestionnaires d'événements lors de la réception d'une commande.
+     *
+     * @param cmd la commande reçue.
+     * @param arg l'argument associé à la commande.
+     */
     private void alertHandlers(String cmd, String arg) {
         for (EventHandler h : this.handlers) {
             h.handle(cmd, arg);
         }
     }
 
+    /**
+     * Démarre le serveur pour écouter les connexions de clients et traiter leurs commandes.
+     */
     public void run() {
         while (true) {
             try {
@@ -52,6 +82,12 @@ public class Server {
         }
     }
 
+    /**
+     * Lit la commande envoyée par le client, la traite et alerte les gestionnaires d'événements.
+     *
+     * @throws IOException si une erreur se produit lors de la lecture ou de l'écriture dans les flux.
+     * @throws ClassNotFoundException si la classe de l'objet lu n'est pas trouvée.
+     */
     public void listen() throws IOException, ClassNotFoundException {
         String line;
         if ((line = this.objectInputStream.readObject().toString()) != null) {
@@ -62,6 +98,12 @@ public class Server {
         }
     }
 
+    /**
+     * prend une chaîne de caractères et extrait la commande et ses arguments.
+     *
+     * @param line la chaîne de caractères à traiter pour extraire la commande et ses arguments
+     * @return une paire de chaînes de caractères représentant la commande et ses arguments respectivement
+     */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
         String cmd = parts[0];
@@ -69,12 +111,23 @@ public class Server {
         return new Pair<>(cmd, args);
     }
 
+    /**
+     * ferme les flux de sortie et d'entrée et le socket associé à la connexion client.
+     *
+     * @throws IOException si une erreur se produit lors de la fermeture des flux de sortie et d'entrée ou du socket de connexion
+     */
     public void disconnect() throws IOException {
         objectOutputStream.close();
         objectInputStream.close();
         client.close();
     }
 
+    /**
+     * détermine quelle action doit être exécutée en conséquence a la commande recue.
+     *
+     * @param cmd la commande à exécuter
+     * @param arg les arguments associés à la commande
+     */
     public void handleEvents(String cmd, String arg) {
         if (cmd.equals(REGISTER_COMMAND)) {
             handleRegistration();
