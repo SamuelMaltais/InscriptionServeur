@@ -1,8 +1,11 @@
 package client;
 
+import server.models.Course;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +27,10 @@ public class ClientLauncher {
                     client.connect();
                     client.test();
                     System.out.println("client is connected...");
-                    client.disconnect();
+                    ArrayList<Course> courses = client.getCourse("Automne");
+                    for(int i=0; i<courses.size(); i++){
+                        System.out.println(courses.get(i).getName());
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

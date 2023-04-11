@@ -1,13 +1,18 @@
 package client;
 
+import server.models.Course;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client {
     private Socket clientSocket;
     private String IP;;
     private int PORT;
-
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private BufferedWriter writer;
     //constructor called by ClientLauncher
     public Client(String IP, int PORT) {
         this.IP = IP;
@@ -17,7 +22,13 @@ public class Client {
     //establish connection to server
     public void connect() throws IOException, ClassNotFoundException {
         clientSocket = new Socket(IP, PORT);
-        
+        out = new ObjectOutputStream(clientSocket.getOutputStream());
+        in = new ObjectInputStream(clientSocket.getInputStream());
+        OutputStreamWriter os = new OutputStreamWriter(
+                clientSocket.getOutputStream()
+        );
+        writer = new BufferedWriter(os);
+
     }
 
     public void disconnect() throws IOException {
@@ -27,21 +38,31 @@ public class Client {
 
     public void test() throws IOException {
         //var ois = new ObjectInputStream(clientSocket.getInputStream());
-        var ous = new ObjectOutputStream(clientSocket.getOutputStream());
-        ous.writeObject("INSCRIRE");
-        ous.flush();
-        ous.close();
+//        var ous = new ObjectOutputStream(clientSocket.getOutputStream());
+//        ous.writeObject("INSCRIRE");
+//        ous.flush();
+//        ous.close();
     }
-
-
-
     /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des 
     cours disponibles pour une session donnée. Le client envoie une requête charger
     au serveur. Le serveur doit récupérer la liste des cours du fichier cours.txt et 
     l’envoie au client. Le client récupère les cours et les affiche.*/
     //"REGISTER"
-    public void getCourse(String session){
-
+    public ArrayList<Course> getCourse(String session){
+        System.out.println("Requesting for classes");
+        ArrayList<Course> courses = null;
+        try {
+            out.writeObject("CHARGER " + session);
+            out.flush();
+            courses = (ArrayList) in.readObject();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return courses;
     }
 
     /*- F2: une deuxième fonctionnalité qui permet au client de faire une demande 

@@ -98,6 +98,7 @@ public class Server {
     public void listen() throws IOException, ClassNotFoundException {
         String line;
         if ((line = this.objectInputStream.readObject().toString()) != null) {
+            System.out.println(line);
             Pair<String, String> parts = processCommandLine(line);
             String cmd = parts.getKey();
             String arg = parts.getValue();
@@ -162,12 +163,13 @@ public class Server {
     public void handleLoadCourses(String arg) {
         ArrayList<Course> cours = new ArrayList<Course>();
         try {
-            File myObj = new File("/data/cours.txt");
+            File myObj = new File("src/main/java/server/data/cours.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                String[] strArr = data.split(" ");
-                if(strArr[2] == arg) {
+                String[] strArr = data.split("\t");
+                if(strArr[2].equals(arg)) {
+                    System.out.println("Added course: " + strArr[0]);
                     cours.add(new Course(strArr[0], strArr[1], strArr[2]));
                 }
                 }
