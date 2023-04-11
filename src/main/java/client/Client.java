@@ -22,21 +22,85 @@ public class Client {
         displayClasses();    
     }
 
-    public String displayClasses(){
+    public void displayClasses(){
         System.out.println("Veuillez choisir la session pour laquelle vous voulez consulter la liste des cours:" + "\n" +
-        "1. Automne" + "\n" + "2.Hiver" + "\n" + "3. Ete" + "\n" + ">Choix: ");
+                "1. Automne" + "\n" + "2.Hiver" + "\n" + "3. Ete" + "\n" + ">Choix: ");
         HashMap<Integer, String> map = new HashMap<>();
         map.put(1, "Automne");
         map.put(2, "Hiver");
         map.put(3, "Ete");
-
         int choice = scanner.nextInt();
         if (map.containsKey(choice)) {
-            return map.get(choice);
+            String session = map.get(choice); 
+            ArrayList<Course> courses = getCourse(session);
+            displayCourses(session, courses);
         }
+        //user input is invalid -> reset
+        System.out.println(String.valueOf(choice) + " n'est pas une option valide");
         displayClasses();
-        return "";
     }
+
+    public void displayCourses(String session, ArrayList<Course> courses) {
+        System.out.println("Les cours offerts pour la session d'" + session + " sont:" );
+        for (int i = 1; i < courses.size(); i++) {
+            Course course = courses.get(i-1);
+            String display = course.getCode() + "\t" + course.getName();
+            System.out.println(String.valueOf(i) + '.' + display);
+        }
+        System.out.println(">Choix: " + "\n" +
+                "1.Consulter les cours offerts pour une autre session" + "\n" +
+                "2.Inscription a un cours");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1: displayClasses();
+                break;
+            case 2: makeNewRegistration(courses);
+                break;
+            default:
+                System.out.println(String.valueOf(choice) + " n'est pas une option valide");
+                displayCourses(session, courses);
+        }
+    }
+
+    public void makeNewRegistration(ArrayList<Course> courses){
+        System.out.println("Veuillez saisir votre prenom: ");
+        String prenom = scanner.nextLine();
+        System.out.println("Veuillez saisir votre nom: ");
+        String nom = scanner.nextLine();
+        System.out.println("Veuillez saisir votre email: ");
+        String email = scanner.nextLine();
+        System.out.println("Veuillez saisir votre matricule: ");
+        String matricule = scanner.nextLine();
+        String codeCours = getCode();
+
+        Course course = getCourse(codeCours, courses);
+        while (course.getCode().equals("")){
+            System.out.println(codeCours + " n'est pas un code de cours valide");
+            codeCours = getCode();
+            course = getCourse(codeCours, courses);
+        }
+
+        RegistrationForm registrationForm = new RegistrationForm(prenom, nom, email, matricule, course);
+        registerRequest(registrationForm);
+        System.out.println("Felicitation! Inscription reussie de " + prenom + " au cours " + codeCours + ".");
+    }
+
+    public String getCode(){
+        System.out.println("Veuillez saisir le code du cours: ");
+        String codeCours = scanner.nextLine();
+        return codeCours;
+    }
+    public Course getCourse(String codeCours, ArrayList<Course> courses){
+        Course course = new Course( "","" , "");
+        for (int i = 1; i < courses.size(); i++) {
+            Course matchCourse = courses.get(i);
+            if (matchCourse.getCode().equals(codeCours)){
+                return matchCourse;
+            }
+        }
+        return course;
+    }
+
 
     //establish connection to server
     public void connect() throws IOException, ClassNotFoundException {
