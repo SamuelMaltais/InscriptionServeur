@@ -6,6 +6,8 @@ import server.models.RegistrationForm;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.HashMap;
 
 public class Client {
     private Socket clientSocket;
@@ -13,11 +15,27 @@ public class Client {
     private int PORT;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    Scanner scanner = new Scanner(System.in);
 
-    //constructor called by ClientLauncher
-    public Client(String IP, int PORT) {
-        this.IP = IP;
-        this.PORT = PORT;
+    public void run(){
+        System.out.println("***Bienvenue au portail d'inscription de cours de l'UDEM***");
+        displayClasses();    
+    }
+
+    public String displayClasses(){
+        System.out.println("Veuillez choisir la session pour laquelle vous voulez consulter la liste des cours:" + "\n" +
+        "1. Automne" + "\n" + "2.Hiver" + "\n" + "3. Ete" + "\n" + ">Choix: ");
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(1, "Automne");
+        map.put(2, "Hiver");
+        map.put(3, "Ete");
+
+        int choice = scanner.nextInt();
+        if (map.containsKey(choice)) {
+            return map.get(choice);
+        }
+        displayClasses();
+        return "";
     }
 
     //establish connection to server
