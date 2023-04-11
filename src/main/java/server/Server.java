@@ -195,7 +195,7 @@ public class Server {
             outputStream.write(message.getBytes());
 
         } catch (IOException e) {
-            System.out.println("error while reading/writing file");
+            System.out.println("error");
             e.printStackTrace();
         } catch (ClassCastException e) {
             //if format is invalid (cannot cast to RegistrationForm)
