@@ -123,22 +123,20 @@ public class Client {
     au serveur. Le serveur doit récupérer la liste des cours du fichier cours.txt et 
     l’envoie au client. Le client récupère les cours et les affiche.*/
     //"REGISTER"
-    public ArrayList<Course> getCourse(String session) throws IOException{
+    public ArrayList<Course> getCourse(String session){
         ArrayList<Course> courses = null;
         try {
             this.connect();
             out.writeObject("CHARGER " + session);
             out.flush();
             courses = (ArrayList) in.readObject();
+            this.disconnect();
         }
         catch (IOException e){
             e.printStackTrace();
         }
         catch (Exception e){
             e.printStackTrace();
-        }
-        finally {
-            disconnect();
         }
         return courses;
     }
@@ -151,22 +149,20 @@ public class Client {
     question. Le serveur ajoute la ligne correspondante au fichier inscription.txt et 
     envoie un message de réussite au client. Le client affiche ce message (ou celui de 
     l’échec en cas d’exception). */
-    public void registerRequest(RegistrationForm form) throws IOException{
+    public void registerRequest(RegistrationForm form){
         try {
             this.connect();
             out.writeObject("INSCRIRE");
             out.flush();
             out.writeObject(form);
             out.flush();
+            this.disconnect();
         }
         catch (IOException e){
             e.printStackTrace();
         }
         catch (Exception e){
             e.printStackTrace();
-        }
-        finally {
-            disconnect();
         }
     }
 
