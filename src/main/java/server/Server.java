@@ -196,8 +196,9 @@ public class Server {
         try {
             // read RegistrationForm object input
             RegistrationForm rc = (RegistrationForm) objectInputStream.readObject();
+            System.out.println("Registration for " + rc.getPrenom() + " to class " + rc.getCourse().getName());
             // output registration form to file
-            FileWriter fw = new FileWriter("/data/inscription.txt", true);
+            FileWriter fw = new FileWriter("src/main/java/server/data/inscription.txt", true);
             BufferedWriter writer = new BufferedWriter(fw);
             // Format: session, code_cours, matricule, prenom, nom, email
             String registrationInfo = (rc.getCourse().getSession() + "\t" + rc.getCourse().getCode() +

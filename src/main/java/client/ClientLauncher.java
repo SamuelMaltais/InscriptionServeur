@@ -24,8 +24,6 @@ public class ClientLauncher {
                 Client client;
                 client = new Client(IP, PORT);
                 try {
-                    client.connect();
-                    client.test();
                     System.out.println("client is connected...");
                     ArrayList<Course> courses = client.getCourse("Automne");
                     for(int i=0; i<courses.size(); i++){

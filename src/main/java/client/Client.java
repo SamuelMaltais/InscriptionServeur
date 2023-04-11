@@ -13,7 +13,7 @@ public class Client {
     private int PORT;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private BufferedWriter writer;
+
     //constructor called by ClientLauncher
     public Client(String IP, int PORT) {
         this.IP = IP;
@@ -25,24 +25,11 @@ public class Client {
         clientSocket = new Socket(IP, PORT);
         out = new ObjectOutputStream(clientSocket.getOutputStream());
         in = new ObjectInputStream(clientSocket.getInputStream());
-        OutputStreamWriter os = new OutputStreamWriter(
-                clientSocket.getOutputStream()
-        );
-        writer = new BufferedWriter(os);
-
     }
 
     public void disconnect() throws IOException {
         clientSocket.close();
         System.out.println("dc");
-    }
-
-    public void test() throws IOException {
-        //var ois = new ObjectInputStream(clientSocket.getInputStream());
-//        var ous = new ObjectOutputStream(clientSocket.getOutputStream());
-//        ous.writeObject("INSCRIRE");
-//        ous.flush();
-//        ous.close();
     }
     /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des 
     cours disponibles pour une session donnée. Le client envoie une requête charger
@@ -53,6 +40,7 @@ public class Client {
         System.out.println("Requesting for classes");
         ArrayList<Course> courses = null;
         try {
+            this.connect();
             out.writeObject("CHARGER " + session);
             out.flush();
             courses = (ArrayList) in.readObject();
@@ -75,8 +63,19 @@ public class Client {
     envoie un message de réussite au client. Le client affiche ce message (ou celui de 
     l’échec en cas d’exception). */
     public void registerRequest(RegistrationForm form){
-
-
+        try {
+            this.connect();
+            out.writeObject("INSCRIRE");
+            out.flush();
+            out.writeObject(form);
+            out.flush();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
     
 
