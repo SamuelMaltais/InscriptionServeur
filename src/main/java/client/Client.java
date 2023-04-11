@@ -117,14 +117,13 @@ public class Client {
 
     public void disconnect() throws IOException {
         clientSocket.close();
-        System.out.println("dc");
     }
     /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des 
     cours disponibles pour une session donnée. Le client envoie une requête charger
     au serveur. Le serveur doit récupérer la liste des cours du fichier cours.txt et 
     l’envoie au client. Le client récupère les cours et les affiche.*/
     //"REGISTER"
-    public ArrayList<Course> getCourse(String session){
+    public ArrayList<Course> getCourse(String session) throws IOException{
         ArrayList<Course> courses = null;
         try {
             this.connect();
@@ -138,6 +137,9 @@ public class Client {
         catch (Exception e){
             e.printStackTrace();
         }
+        finally {
+            disconnect();
+        }
         return courses;
     }
 
@@ -149,7 +151,7 @@ public class Client {
     question. Le serveur ajoute la ligne correspondante au fichier inscription.txt et 
     envoie un message de réussite au client. Le client affiche ce message (ou celui de 
     l’échec en cas d’exception). */
-    public void registerRequest(RegistrationForm form){
+    public void registerRequest(RegistrationForm form) throws IOException{
         try {
             this.connect();
             out.writeObject("INSCRIRE");
@@ -162,6 +164,9 @@ public class Client {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+        finally {
+            disconnect();
         }
     }
 
