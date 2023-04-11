@@ -170,7 +170,7 @@ public class Server {
                 String[] strArr = data.split("\t");
                 if(strArr[2].equals(arg)) {
                     System.out.println("Added course: " + strArr[0]);
-                    cours.add(new Course(strArr[0], strArr[1], strArr[2]));
+                    cours.add(new Course(strArr[1], strArr[0], strArr[2]));
                 }
                 }
             myReader.close();

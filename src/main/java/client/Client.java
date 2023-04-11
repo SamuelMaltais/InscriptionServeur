@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class Client {
     private Socket clientSocket;
-    private String IP;;
-    private int PORT;
+    private String IP = "127.0.0.1";
+    private int PORT = 1337;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     Scanner scanner = new Scanner(System.in);
@@ -35,27 +35,33 @@ public class Client {
             ArrayList<Course> courses = getCourse(session);
             displayCourses(session, courses);
         }
-        //user input is invalid -> reset
-        System.out.println(String.valueOf(choice) + " n'est pas une option valide");
-        displayClasses();
+        else {
+            //user input is invalid -> reset
+            System.out.println(String.valueOf(choice) + " n'est pas une option valide");
+            displayClasses();
+        }
+
+
     }
 
     public void displayCourses(String session, ArrayList<Course> courses) {
         System.out.println("Les cours offerts pour la session d'" + session + " sont:" );
-        for (int i = 1; i < courses.size(); i++) {
-            Course course = courses.get(i-1);
+        for (int i = 0; i < courses.size(); i++) {
+            Course course = courses.get(i);
             String display = course.getCode() + "\t" + course.getName();
-            System.out.println(String.valueOf(i) + '.' + display);
+            System.out.println(String.valueOf(i + 1) + '.' + display);
         }
-        System.out.println(">Choix: " + "\n" +
+        System.out.println("\n>Choix: " + "\n" +
                 "1.Consulter les cours offerts pour une autre session" + "\n" +
                 "2.Inscription a un cours");
         int choice = scanner.nextInt();
         switch (choice) {
-            case 1: displayClasses();
-                break;
-            case 2: makeNewRegistration(courses);
-                break;
+            case 1:
+                displayClasses();
+                return;
+            case 2:
+                makeNewRegistration(courses);
+                return;
             default:
                 System.out.println(String.valueOf(choice) + " n'est pas une option valide");
                 displayCourses(session, courses);
@@ -63,6 +69,7 @@ public class Client {
     }
 
     public void makeNewRegistration(ArrayList<Course> courses){
+        scanner.nextLine();
         System.out.println("Veuillez saisir votre prenom: ");
         String prenom = scanner.nextLine();
         System.out.println("Veuillez saisir votre nom: ");
@@ -73,13 +80,12 @@ public class Client {
         String matricule = scanner.nextLine();
         String codeCours = getCode();
 
-        Course course = getCourse(codeCours, courses);
-        while (course.getCode().equals("")){
+        Course course = findCourse(codeCours, courses);
+        while (course == null){
             System.out.println(codeCours + " n'est pas un code de cours valide");
             codeCours = getCode();
-            course = getCourse(codeCours, courses);
+            course = findCourse(codeCours, courses);
         }
-
         RegistrationForm registrationForm = new RegistrationForm(prenom, nom, email, matricule, course);
         registerRequest(registrationForm);
         System.out.println("Felicitation! Inscription reussie de " + prenom + " au cours " + codeCours + ".");
@@ -90,15 +96,15 @@ public class Client {
         String codeCours = scanner.nextLine();
         return codeCours;
     }
-    public Course getCourse(String codeCours, ArrayList<Course> courses){
-        Course course = new Course( "","" , "");
-        for (int i = 1; i < courses.size(); i++) {
+    public Course findCourse(String codeCours, ArrayList<Course> courses){
+        for (int i = 0; i < courses.size(); i++) {
             Course matchCourse = courses.get(i);
+            System.out.println(matchCourse.getName() + "   " + codeCours);
             if (matchCourse.getCode().equals(codeCours)){
                 return matchCourse;
             }
         }
-        return course;
+        return null;
     }
 
 
@@ -119,7 +125,6 @@ public class Client {
     l’envoie au client. Le client récupère les cours et les affiche.*/
     //"REGISTER"
     public ArrayList<Course> getCourse(String session){
-        System.out.println("Requesting for classes");
         ArrayList<Course> courses = null;
         try {
             this.connect();

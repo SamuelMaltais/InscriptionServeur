@@ -1,2 +1,7 @@
 Automne	IFT2255	12345678	Michalis	Famelis	mfamelis@iro.umontreal.ca
 Automne	Programmation1	20244617	Samuel	Maltais	leasdf@hotmail.com
+Hiver	IFT1025	20244617	Samuel	Maltais	leumasmontreal@hotmail.com
+Hiver	IFT1025				
+Hiver	IFT2125	20244617	Jean	Gyu	uwu
+Hiver	IFT2125	23123123	lsdasd	asdf	asdf
+Hiver	IFT1025		sdasd	df	asfa
