@@ -3,7 +3,6 @@ package server;
 import javafx.util.Pair;
 import server.models.Course;
 import server.models.RegistrationForm;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -168,8 +167,10 @@ public class Server {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String[] strArr = data.split(" ");
-                cours.add(new Course(strArr[0], strArr[1], strArr[2]));
-            }
+                if(strArr[2] == arg) {
+                    cours.add(new Course(strArr[0], strArr[1], strArr[2]));
+                }
+                }
             myReader.close();
             objectOutputStream.writeObject(cours);
             objectOutputStream.flush();
