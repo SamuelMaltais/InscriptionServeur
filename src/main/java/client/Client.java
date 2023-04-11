@@ -40,6 +40,23 @@ public class Client {
         }
     }
 
+    public String getCode(){
+        System.out.println("Veuillez saisir le code du cours: ");
+        String codeCours = scanner.nextLine();
+        return codeCours;
+    }
+    public Course getCourse(String codeCours, ArrayList<Course> courses){
+        Course course = new Course( "","" , "");
+        for (int i = 1; i < courses.size(); i++) {
+            Course matchCourse = courses.get(i);
+            if (matchCourse.getCode().equals(codeCours)){
+                return matchCourse;
+            }
+        }
+        return course;
+    }
+
+
     //establish connection to server
     public void connect() throws IOException, ClassNotFoundException {
         clientSocket = new Socket(IP, PORT);
