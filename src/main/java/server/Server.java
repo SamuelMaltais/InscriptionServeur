@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import server.models.Course;
 import server.models.RegistrationForm;
 
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,7 +12,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Classe pour le serveur qui gere les connexions clients et qui traite les commandes reçues.
+ * Classe pour le serveur qui gere les connexions clients et qui traite les
+ * commandes reçues.
  */
 public class Server {
 
@@ -33,10 +33,13 @@ public class Server {
     private final ArrayList<EventHandler> handlers;
 
     /**
-     * Constructeur qui initialise le socket serveur et la liste des gestionnaires d'événements.
+     * Constructeur qui initialise le socket serveur et la liste des gestionnaires
+     * d'événements.
      *
-     * @param port numéro de port sur lequel le serveur doit écouter les connexions de clients.
-     * @throws IOException si une erreur se produit lors de la création du socket serveur.
+     * @param port numéro de port sur lequel le serveur doit écouter les connexions
+     *             de clients.
+     * @throws IOException si une erreur se produit lors de la création du socket
+     *                     serveur.
      */
     public Server(int port) throws IOException {
         this.server = new ServerSocket(port, 1);
@@ -66,7 +69,8 @@ public class Server {
     }
 
     /**
-     * Démarre le serveur pour écouter les connexions de clients et traiter leurs commandes.
+     * Démarre le serveur pour écouter les connexions de clients et traiter leurs
+     * commandes.
      */
     public void run() {
         while (true) {
@@ -85,9 +89,11 @@ public class Server {
     }
 
     /**
-     * Lit la commande envoyée par le client, la traite et alerte les gestionnaires d'événements.
+     * Lit la commande envoyée par le client, la traite et alerte les gestionnaires
+     * d'événements.
      *
-     * @throws IOException si une erreur se produit lors de la lecture ou de l'écriture dans les flux.
+     * @throws IOException            si une erreur se produit lors de la lecture ou
+     *                                de l'écriture dans les flux.
      * @throws ClassNotFoundException si la classe de l'objet lu n'est pas trouvée.
      */
     public void listen() throws IOException, ClassNotFoundException {
@@ -103,8 +109,10 @@ public class Server {
     /**
      * prend une chaîne de caractères et extrait la commande et ses arguments.
      *
-     * @param line la chaîne de caractères à traiter pour extraire la commande et ses arguments
-     * @return une paire de chaînes de caractères représentant la commande et ses arguments respectivement
+     * @param line la chaîne de caractères à traiter pour extraire la commande et
+     *             ses arguments
+     * @return une paire de chaînes de caractères représentant la commande et ses
+     *         arguments respectivement
      */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
@@ -114,9 +122,11 @@ public class Server {
     }
 
     /**
-     * ferme les flux de sortie et d'entrée et le socket associé à la connexion client.
+     * ferme les flux de sortie et d'entrée et le socket associé à la connexion
+     * client.
      *
-     * @throws IOException si une erreur se produit lors de la fermeture des flux de sortie et d'entrée ou du socket de connexion
+     * @throws IOException si une erreur se produit lors de la fermeture des flux de
+     *                     sortie et d'entrée ou du socket de connexion
      */
     public void disconnect() throws IOException {
         objectOutputStream.close();
@@ -125,7 +135,8 @@ public class Server {
     }
 
     /**
-     * détermine quelle action doit être exécutée en conséquence a la commande recue.
+     * détermine quelle action doit être exécutée en conséquence a la commande
+     * recue.
      *
      * @param cmd la commande à exécuter
      * @param arg les arguments associés à la commande
@@ -160,6 +171,8 @@ public class Server {
                 cours.add(new Course(strArr[0], strArr[1], strArr[2]));
             }
             myReader.close();
+            objectOutputStream.writeObject(cours);
+            objectOutputStream.flush();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -178,18 +191,19 @@ public class Server {
      */
     public void handleRegistration() {
         try {
-            //read RegistrationForm object input 
+            // read RegistrationForm object input
             RegistrationForm rc = (RegistrationForm) objectInputStream.readObject();
-            //output registration form to file
+            // output registration form to file
             FileWriter fw = new FileWriter("/data/inscription.txt", true);
             BufferedWriter writer = new BufferedWriter(fw);
-            //Format: session, code_cours, matricule, prenom, nom, email
-            String registrationInfo = (rc.getCourse().getSession() + "\t" + rc.getCourse().getCode() + 
-            "\t" + rc.getMatricule() + "\t" + rc.getPrenom() + "\t" + rc.getNom() + "\t" + rc.getEmail() + "\n");
+            // Format: session, code_cours, matricule, prenom, nom, email
+            String registrationInfo = (rc.getCourse().getSession() + "\t" + rc.getCourse().getCode() +
+                    "\t" + rc.getMatricule() + "\t" + rc.getPrenom() + "\t" + rc.getNom() + "\t" + rc.getEmail()
+                    + "\n");
             writer.append(registrationInfo);
             writer.close();
 
-            //send confirmation message
+            // send confirmation message
             OutputStream outputStream = client.getOutputStream();
             String message = "inscription confirmee";
             outputStream.write(message.getBytes());
@@ -198,7 +212,7 @@ public class Server {
             System.out.println("error");
             e.printStackTrace();
         } catch (ClassCastException e) {
-            //if format is invalid (cannot cast to RegistrationForm)
+            // if format is invalid (cannot cast to RegistrationForm)
             System.out.println("Invalid input");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
