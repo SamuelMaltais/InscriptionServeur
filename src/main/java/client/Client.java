@@ -1,6 +1,7 @@
 package client;
 
 import server.models.Course;
+import server.models.RegistrationForm;
 
 import java.io.*;
 import java.net.Socket;
@@ -73,7 +74,7 @@ public class Client {
     question. Le serveur ajoute la ligne correspondante au fichier inscription.txt et 
     envoie un message de réussite au client. Le client affiche ce message (ou celui de 
     l’échec en cas d’exception). */
-    public void setCourse(){
+    public void registerRequest(RegistrationForm form){
 
 
     }
