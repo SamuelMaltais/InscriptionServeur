@@ -2,11 +2,13 @@ package client.JavaFxGui;
 
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.net.URL;
 
 
 public class vue extends Application {
@@ -14,14 +16,17 @@ public class vue extends Application {
         vue.launch(args);
     }
     @Override
-    public void start(Stage primaryStage) {
-        VBox root = new VBox();
-        Scene scene = new Scene(root, 320, 250);
-        Text texte = new Text("Hello, World !");
-        texte.setFont(Font.font("serif", 25));
-        root.getChildren().add(texte);
-        primaryStage.setTitle("Titre de la fenêtre");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage primaryStage){
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(new URL("file:///C:/Users/leuma/Documents/Ecole/1025/InscriptionServeur/src/main/java/client/JavaFxGui/baseScene.fxml"));
+            SplitPane splitPane = loader.<SplitPane>load();
+            Scene scene = new Scene(splitPane);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
