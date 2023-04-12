@@ -116,6 +116,8 @@ public class Client {
     }
 
     public void disconnect() throws IOException {
+        out.close();
+        in.close();
         clientSocket.close();
     }
     /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des 

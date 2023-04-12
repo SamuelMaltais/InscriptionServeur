@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.JavaFxGui.Controller">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <ChoiceBox fx:id="chooseSession" layoutX="14.0" layoutY="383.0" prefHeight="25.0" prefWidth="107.0" AnchorPane.bottomAnchor="13.799999999999976" AnchorPane.leftAnchor="13.999999999999986" AnchorPane.rightAnchor="194.8" AnchorPane.topAnchor="383.0" />
+            <Button fx:id="loadClasses" layoutX="211.0" layoutY="383.0" mnemonicParsing="false" onAction="#displayCourses" prefHeight="25.0" prefWidth="87.0" text="charger" />
+            <TableView fx:id="table" layoutX="16.0" layoutY="48.0" prefHeight="312.0" prefWidth="283.0" style="-fx-border-color: #ADD8E6; -fx-border-width: 2;">
+              <columns>
+                <TableColumn fx:id="tableCode" prefWidth="119.20003890991211" text="Code" />
+                <TableColumn fx:id="tableClass" prefWidth="162.4000274658203" text="Cours" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+            <Text fontSmoothingType="LCD" layoutX="85.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des cours" wrappingWidth="144.5367431640625">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <Text fontSmoothingType="LCD" layoutX="43.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Formulaire d'inscription" wrappingWidth="230.93675231933594">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom" wrappingWidth="49.33677673339844" />
+            <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" wrappingWidth="49.33677673339844" />
+            <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="49.33677673339844" />
+            <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricule" wrappingWidth="66.93675231933594" />
+            <Button fx:id="submit" layoutX="147.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleButtonPress" prefHeight="25.0" prefWidth="87.0" text="envoyer" />
+            <TextField fx:id="firstName" layoutX="107.0" layoutY="72.0" prefHeight="26.0" prefWidth="177.0" />
+            <TextField fx:id="lastName" layoutX="106.0" layoutY="111.0" prefHeight="26.0" prefWidth="178.0" />
+            <TextField fx:id="email" layoutX="106.0" layoutY="154.0" prefHeight="26.0" prefWidth="178.0" />
+            <TextField fx:id="matricule" layoutX="106.0" layoutY="198.0" prefHeight="26.0" prefWidth="178.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>
