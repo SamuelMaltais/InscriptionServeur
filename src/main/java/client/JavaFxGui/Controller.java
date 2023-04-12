@@ -30,8 +30,10 @@ public class Controller extends Application {
     Client client = new Client();
     @FXML private Button submit;
     @FXML private Button loadClasses;
-    @FXML private TableView table;
-
+    private TableView<Course> table;
+    private TableColumn<Course, String> code;
+    private TableColumn<Course, String> name;
+    private ObservableList<Course> data;
 
     public static void main(String[] args) {
         Controller.launch(args);
@@ -42,6 +44,11 @@ public class Controller extends Application {
         try {
             loader.setLocation(getClass().getResource("/JavaFxGui/baseScene.fxml"));
             SplitPane splitPane = loader.<SplitPane>load();
+            table = (TableView) loader.getNamespace().get("table");
+            code = (TableColumn) loader.getNamespace().get("tableCode");
+            name = (TableColumn) loader.getNamespace().get("tableClass");
+            code.setCellValueFactory(new PropertyValueFactory<Course, String>("code"));
+            name.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
             Scene scene = new Scene(splitPane);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -51,23 +58,14 @@ public class Controller extends Application {
         }
     }
 
-    public void displayCourses(javafx.event.ActionEvent actionEvent) {
-        TableColumn code = new TableColumn("tableCode");
-        TableColumn name = new TableColumn("tableName");
-        table.getColumns().addAll(code, name);
-
+    public void displayCourses(javafx.event.ActionEvent actionEvent) throws Exception{
         //retrieve classes information
         //ArrayList courses = client.getCourse("Automne");
-        //test
         final ObservableList<Course> data = FXCollections.observableArrayList(
         new Course("some","random", "stuff")    );
         //associate data with columns
-        code.setCellValueFactory(new PropertyValueFactory<Course, String>("code"));
-        name.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
 
         table.setItems(data);
-
-
     }
     //Click on submit
     public void handleButtonPress(javafx.event.ActionEvent actionEvent) {
