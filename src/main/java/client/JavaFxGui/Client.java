@@ -1,6 +1,6 @@
 package client.JavaFxGui;
 
-import server.models.Course;
+import client.JavaFxGui.models.Course;
 import server.models.RegistrationForm;
 
 import java.io.IOException;
@@ -26,7 +26,6 @@ public class Client {
         in.close();
         clientSocket.close();
     }
-
 
     public ArrayList<Course> getCourse(String session){
         ArrayList<Course> courses = null;
