@@ -1,7 +1,7 @@
 package client.JavaFxGui;
 
 import client.JavaFxGui.models.Course;
-import server.models.RegistrationForm;
+import client.JavaFxGui.models.RegistrationForm;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
