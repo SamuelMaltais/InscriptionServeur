@@ -30,16 +30,42 @@ public class Controller extends Application {
     Client client = new Client();
     @FXML private Button submit;
     @FXML private Button loadClasses;
-    private TableView<Course> table;
-    private TableColumn<Course, String> code;
-    private TableColumn<Course, String> name;
-    private ObservableList<Course> data;
-
+    @FXML private static TableView<Course> table;
+    @FXML private static TableColumn<Course, String> code;
+    @FXML private static TableColumn<Course, String> name;
+    @FXML private ObservableList<Course> data;
+    private static Stage pStage;
     public static void main(String[] args) {
         Controller.launch(args);
     }
     @Override
     public void start(Stage primaryStage) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            pStage = primaryStage;
+            loader.setLocation(getClass().getResource("/JavaFxGui/baseScene.fxml"));
+            SplitPane splitPane = loader.<SplitPane>load();
+            table = (TableView) loader.getNamespace().get("table");
+            code = (TableColumn) loader.getNamespace().get("tableCode");
+            name = (TableColumn) loader.getNamespace().get("tableClass");
+            code.setCellValueFactory(new PropertyValueFactory<Course, String>("code"));
+            name.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
+            setVariables(primaryStage, table, code, name);
+            Scene scene = new Scene(splitPane);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void setVariables(Stage pStage, TableView<Course> table, TableColumn<Course, String> code, TableColumn<Course, String> name) {
+        Controller.pStage = pStage;
+        Controller.code = code;
+        Controller.name = name;
+        Controller.table = table;
+    }
+    public void displayCourses(javafx.event.ActionEvent actionEvent){
         FXMLLoader loader = new FXMLLoader();
         try {
             loader.setLocation(getClass().getResource("/JavaFxGui/baseScene.fxml"));
@@ -49,23 +75,20 @@ public class Controller extends Application {
             name = (TableColumn) loader.getNamespace().get("tableClass");
             code.setCellValueFactory(new PropertyValueFactory<Course, String>("code"));
             name.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
+            final ObservableList<Course> data = FXCollections.observableArrayList(
+                    new Course("some","random", "stuff")    );
+            table.setItems(data);
             Scene scene = new Scene(splitPane);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            Stage stage = new Stage();
+            pStage.setScene(scene);
         }
-        catch (Exception e) {
+        catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void displayCourses(javafx.event.ActionEvent actionEvent) throws Exception{
         //retrieve classes information
         //ArrayList courses = client.getCourse("Automne");
-        final ObservableList<Course> data = FXCollections.observableArrayList(
-        new Course("some","random", "stuff")    );
-        //associate data with columns
 
-        table.setItems(data);
+        //associate data with columns
     }
     //Click on submit
     public void handleButtonPress(javafx.event.ActionEvent actionEvent) {
