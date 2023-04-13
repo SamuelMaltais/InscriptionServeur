@@ -1,7 +1,7 @@
 package client.JavaFxGui;
 
-import client.JavaFxGui.models.Course;
-import client.JavaFxGui.models.RegistrationForm;
+import server.models.Course;
+import server.models.RegistrationForm;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,6 +29,10 @@ public class Client {
 
     public ArrayList<Course> getCourse(String session){
         ArrayList<Course> courses = null;
+        // Traite l'exeption de l'accent
+        if(session.equals("Été")){
+            session = "Ete";
+        }
         try {
             this.connect();
             out.writeObject("CHARGER " + session);
