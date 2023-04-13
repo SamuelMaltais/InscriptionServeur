@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Controller extends Application {
@@ -55,14 +56,24 @@ public class Controller extends Application {
             tableCode.setCellValueFactory(new PropertyValueFactory<Course, String>("code"));
             tableClass.setCellValueFactory(new PropertyValueFactory<Course, String>("name"));
             //obtain courses for specified semester
-            ArrayList<Course> classes = client.getCourse(this.session);
-            //convert to observableArrayList; format: code + name
-            final ObservableList<Course> data = FXCollections.observableArrayList(classes);
-            table.setItems(data);
+            if (session != null){
+                ArrayList<Course> classes = client.getCourse(this.session);
+                //convert to observableArrayList; format: code + name
+                final ObservableList<Course> data = FXCollections.observableArrayList(classes);
+                table.setItems(data);
+            }
+            else {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Veuillez selectionner une session pour laquelle vous voulez visionner les cours");
+                a.show();
+            }
         }
 
         catch (Exception e){
             e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Echec de connection au serveur, reesayer avec une bonne connection ou contacter les administrateurs");
+            a.show();
         }
     }
 
