@@ -1,5 +1,6 @@
 package client;
 
+import javafx.scene.shape.VLineTo;
 import server.models.Course;
 import server.models.RegistrationForm;
 
@@ -10,6 +11,7 @@ import java.util.Scanner;
 import java.util.HashMap;
 
 public class Client {
+    Validation validate = new Validation();
     private Socket clientSocket;
     private String IP = "127.0.0.1";
     private int PORT = 1337;
@@ -69,17 +71,35 @@ public class Client {
     }
 
     public void makeNewRegistration(ArrayList<Course> courses){
-        scanner.nextLine();
         System.out.println("Veuillez saisir votre prenom: ");
         String prenom = scanner.nextLine();
+        while(!validate.validateName(prenom)){
+            System.out.println("Veuillez saisiru un prenom valide: ");
+            prenom = scanner.nextLine();
+        }
+
         System.out.println("Veuillez saisir votre nom: ");
         String nom = scanner.nextLine();
+        while(!validate.validateName(nom)){
+            System.out.println("Veuillez saisir un nom valide: ");
+            nom = scanner.nextLine();
+        }
+
         System.out.println("Veuillez saisir votre email: ");
         String email = scanner.nextLine();
+        while(!validate.validateEmail(email)){
+            System.out.println("Veuillez saisir un email valide: ");
+            email = scanner.nextLine();
+        }
+
         System.out.println("Veuillez saisir votre matricule: ");
         String matricule = scanner.nextLine();
-        String codeCours = getCode();
+        while(!validate.validateMatricule(matricule)){
+            System.out.println("Veuillez saisir une matricule valide: ");
+            matricule = scanner.nextLine();
+        }
 
+        String codeCours = getCode();
         Course course = findCourse(codeCours, courses);
         while (course == null){
             System.out.println(codeCours + " n'est pas un code de cours valide");
@@ -106,7 +126,6 @@ public class Client {
         }
         return null;
     }
-
 
     //establish connection to server
     public void connect() throws IOException, ClassNotFoundException {

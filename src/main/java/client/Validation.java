@@ -1,4 +1,4 @@
-package client.JavaFxGui;
+package client;
 public class Validation {
     public boolean validateName(String name){
         String pattern = "^[a-zA-Z]+$";
