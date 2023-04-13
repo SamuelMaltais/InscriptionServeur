@@ -2,8 +2,6 @@ package client.JavaFxGui;
 import server.models.Course;
 import server.models.RegistrationForm;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,27 +13,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Controller extends Application {
     Client client = new Client();
+    Validation validate = new Validation();
     String session;
+    //Fxml id for session choice
+    @FXML private ChoiceBox<String> chooseSession;
     //Fxml ids for display code and name
     @FXML private TableView<Course> table;
     @FXML private TableColumn<Course, String> tableCode;
     @FXML private TableColumn<Course, String> tableClass;
-    @FXML private ChoiceBox<String> chooseSession;
     //Fxml ids for registrationForm
     @FXML private TextField firstName;
     @FXML private TextField lastName;
     @FXML private TextField email;
     @FXML private TextField matricule;
 
-
-    //public static void main(String[] args) {
-    //    Controller.launch(args);
-    //}
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
@@ -72,20 +67,20 @@ public class Controller extends Application {
     }
 
     //Click on submit, calls registerRequest
-    public void handleButtonPress(javafx.event.ActionEvent actionEvent) {
+    public void submitRequest(javafx.event.ActionEvent actionEvent) {
             String firstName = this.firstName.getText();
             String lastName = this.lastName.getText();
             String email = this.email.getText();
             String matricule = this.matricule.getText();
 
             //Validation
-        if(firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || matricule.isEmpty()){
+        if(!validate.validateName(firstName) || !validate.validateName(lastName) ||
+                !validate.validateEmail(email) || !validate.validateMatricule(matricule)){
             Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("Vous ne pouvez pas avoir un champ vide");
+            a.setContentText("un champ est vide ou invalide");
             a.show();
             return;
         }
-        //TODO REGEX FOR EMAIL AND MATRICULE
 
         //get Course Object from user click
         Course course = table.getSelectionModel().getSelectedItem();
@@ -100,7 +95,7 @@ public class Controller extends Application {
             RegistrationForm registrationForm = new RegistrationForm(firstName, lastName, email, matricule, course);
             client.registerRequest(registrationForm);
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setContentText("Vous etes inscrits !!");
+            a.setContentText("Félicitations " + firstName + " vous  vous etes inscrits au cours" + course.getName() + " !");
             a.show();
         }
         catch (Exception e) {

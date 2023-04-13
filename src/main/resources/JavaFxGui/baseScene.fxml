@@ -14,7 +14,7 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <ChoiceBox fx:id="chooseSession" layoutX="14.0" onAction="#ChangedSessionChoice" layoutY="383.0" prefHeight="25.0" prefWidth="107.0" AnchorPane.bottomAnchor="13.799999999999976" AnchorPane.leftAnchor="13.999999999999986" AnchorPane.rightAnchor="194.8" AnchorPane.topAnchor="383.0" />
+            <ChoiceBox fx:id="chooseSession" layoutX="14.0" layoutY="383.0" onAction="#ChangedSessionChoice" prefHeight="25.0" prefWidth="107.0" AnchorPane.bottomAnchor="13.799999999999976" AnchorPane.leftAnchor="13.999999999999986" AnchorPane.rightAnchor="194.8" AnchorPane.topAnchor="383.0" />
             <Button fx:id="loadClasses" layoutX="211.0" layoutY="383.0" mnemonicParsing="false" onAction="#displayCourses" prefHeight="25.0" prefWidth="87.0" text="charger" />
             <TableView fx:id="table" layoutX="16.0" layoutY="48.0" prefHeight="312.0" prefWidth="283.0" style="-fx-border-color: #ADD8E6; -fx-border-width: 2;">
               <columns>
@@ -42,7 +42,7 @@
             <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom" wrappingWidth="49.33677673339844" />
             <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="49.33677673339844" />
             <Text fontSmoothingType="LCD" layoutX="31.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricule" wrappingWidth="66.93675231933594" />
-            <Button fx:id="submit" layoutX="147.0" layoutY="246.0" mnemonicParsing="false" onAction="#handleButtonPress" prefHeight="25.0" prefWidth="87.0" text="envoyer" />
+            <Button fx:id="submit" layoutX="147.0" layoutY="246.0" mnemonicParsing="false" onAction="#submitRequest" prefHeight="25.0" prefWidth="87.0" text="envoyer" />
             <TextField fx:id="firstName" layoutX="107.0" layoutY="72.0" prefHeight="26.0" prefWidth="177.0" />
             <TextField fx:id="lastName" layoutX="106.0" layoutY="111.0" prefHeight="26.0" prefWidth="178.0" />
             <TextField fx:id="email" layoutX="106.0" layoutY="154.0" prefHeight="26.0" prefWidth="178.0" />
