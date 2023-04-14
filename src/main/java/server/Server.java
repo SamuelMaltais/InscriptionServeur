@@ -204,8 +204,7 @@ public class Server {
             String registrationInfo = (rc.getCourse().getSession() + "\t" + rc.getCourse().getCode() +
                     "\t" + rc.getMatricule() + "\t" + rc.getPrenom() + "\t" + rc.getNom() + "\t" + rc.getEmail()
                     + "\n");
-            writer.newLine();
-            writer.write(registrationInfo);
+            writer.append(registrationInfo);
             writer.close();
 
             // send confirmation message
