@@ -10,7 +10,7 @@ public class Validation {
     }
 
     public boolean validateMatricule(String matricule){
-        String pattern = "^[0-9]{7}$";
+        String pattern = "^[0-9]{8}$";
         return matricule.matches(pattern);
     }
 

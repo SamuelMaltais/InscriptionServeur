@@ -72,9 +72,10 @@ public class Client {
 
     public void makeNewRegistration(ArrayList<Course> courses){
         System.out.println("Veuillez saisir votre prenom: ");
+        scanner.nextLine();
         String prenom = scanner.nextLine();
         while(!validate.validateName(prenom)){
-            System.out.println("Veuillez saisiru un prenom valide: ");
+            System.out.println("Veuillez saisir un prenom valide: ");
             prenom = scanner.nextLine();
         }
 
