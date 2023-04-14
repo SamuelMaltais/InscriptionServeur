@@ -43,12 +43,12 @@ public class EventHandler
         String lastName = this.lastName.getText();
         String email = this.email.getText();
         String matricule = this.matricule.getText();
-
+        validate.errors = "";
         //Validation
         if(!validate.validateName(firstName) || !validate.validateName(lastName) ||
                 !validate.validateEmail(email) || !validate.validateMatricule(matricule)){
             Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setContentText("un champ est vide ou invalide");
+            a.setContentText(validate.errors);
             a.show();
             return;
         }

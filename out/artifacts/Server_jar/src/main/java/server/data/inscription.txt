@@ -1,0 +1,6 @@
+Automne	IFT2255	12345678	Michalis	Famelis	mfamelis@iro.umontreal.ca
+Automne	IFT2255	12345678	Samuel	Maltais	leumasmontreal@hotmail.com
+Hiver	IFT2125	12345678	Kelvin	Chen	kelvin_chen@gmail.comAutomne
+Automne	IFT1227	12345678	Bob	Ross	bob_ross@gmail.com
+
+Automne	IFT1015	12345678	Lucas	Maltais	thelegend27@hotmail.com
