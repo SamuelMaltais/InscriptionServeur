@@ -5,3 +5,4 @@ Automne	IFT1227	20244617	Samuel	Maltais	theLegend27@ok.com
 Hiver	IFT1025	dsadas	my	balls	dsdsds
 Hiver	IFT1025	dsadas	my	balls	dsdsds
 Automne	IFT1227	1234567	dss	dss	dss@gmail.com
+Ete	IFT2256	2024461	Samuel	Maltais	leumasmontreal@hotmail.com
