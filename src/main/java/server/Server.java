@@ -3,6 +3,7 @@ package server;
 import javafx.util.Pair;
 import server.models.Course;
 import server.models.RegistrationForm;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -112,7 +113,7 @@ public class Server {
      * @param line la chaîne de caractères à traiter pour extraire la commande et
      *             ses arguments
      * @return une paire de chaînes de caractères représentant la commande et ses
-     *         arguments respectivement
+     * arguments respectivement
      */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
@@ -157,7 +158,7 @@ public class Server {
      * utilisant l'objet 'objectOutputStream'.
      * La méthode gère les exceptions si une erreur se produit lors de la lecture du
      * fichier ou de l'écriture de l'objet dans le flux.
-     * 
+     *
      * @param arg la session pour laquelle on veut récupérer la liste des cours
      */
     public void handleLoadCourses(String arg) {
@@ -168,11 +169,11 @@ public class Server {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String[] strArr = data.split("\t");
-                if(strArr[2].equals(arg)) {
+                if (strArr[2].equals(arg)) {
                     System.out.println("Added course: " + strArr[0]);
                     cours.add(new Course(strArr[1], strArr[0], strArr[2]));
                 }
-                }
+            }
             myReader.close();
             objectOutputStream.writeObject(cours);
             objectOutputStream.flush();

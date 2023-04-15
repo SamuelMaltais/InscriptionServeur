@@ -1,4 +1,5 @@
 package client.JavaFxGui;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.stage.Stage;
 public class Controller extends Application {
     /**
      * Starts the UI and initializes ChoiceBox values
+     *
      * @param primaryStage
      */
     @Override
@@ -23,11 +25,11 @@ public class Controller extends Application {
             chooseSession.getItems().add("Été");
             chooseSession.getItems().add("Hiver");
             primaryStage.show();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }

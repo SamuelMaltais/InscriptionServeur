@@ -19,7 +19,7 @@ public class Client {
     private ObjectInputStream in;
     Scanner scanner = new Scanner(System.in);
 
-    public void run(){
+    public void run() {
         System.out.println("***Bienvenue au portail d'inscription de cours de l'UDEM***");
         displayClasses();
     }
@@ -36,7 +36,7 @@ public class Client {
             String session = map.get(choice);
             ArrayList<Course> courses = getCourse(session);
             displayCourses(session, courses);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("vous avez rentre une option invalide. Reessayez");
             scanner.nextLine(); //consume incorrect input to prevent loop
             displayClasses();
@@ -44,7 +44,7 @@ public class Client {
     }
 
     public void displayCourses(String session, ArrayList<Course> courses) {
-        System.out.println("Les cours offerts pour la session d'" + session + " sont:" );
+        System.out.println("Les cours offerts pour la session d'" + session + " sont:");
         for (int i = 0; i < courses.size(); i++) {
             Course course = courses.get(i);
             String display = course.getCode() + "\t" + course.getName();
@@ -67,16 +67,7 @@ public class Client {
         }
     }
 
-    public String getUserInput(String prompt, Function<String, Boolean> validateType) {
-        String userInfo;
-        do{
-            System.out.println(prompt);
-            userInfo = scanner.nextLine();
-        } while (!validateType.apply(userInfo));
-        return userInfo;
-    }
-
-    public void makeNewRegistration(ArrayList<Course> courses){
+    public void makeNewRegistration(ArrayList<Course> courses) {
         scanner.nextLine(); //consume
         String prenom = getUserInput("Veuillez saisir votre prenom: ", validate::validateName);
         String nom = getUserInput("Veuillez saisr votre Nom: ", validate::validateName);
@@ -89,7 +80,16 @@ public class Client {
         System.out.println("Felicitation! Inscription reussie de " + prenom + " au cours " + course.getCode() + ".");
     }
 
-    public Course fetchCourse(ArrayList<Course> courses){
+    public String getUserInput(String prompt, Function<String, Boolean> validateType) {
+        String userInfo;
+        do {
+            System.out.println(prompt);
+            userInfo = scanner.nextLine();
+        } while (!validateType.apply(userInfo));
+        return userInfo;
+    }
+
+    public Course fetchCourse(ArrayList<Course> courses) {
         Course course;
         do {
             System.out.println("Veuillez saisir le code du cours: ");
@@ -99,11 +99,11 @@ public class Client {
         return course;
     }
 
-    public Course findCourse(String codeCours, ArrayList<Course> courses){
+    public Course findCourse(String codeCours, ArrayList<Course> courses) {
         for (int i = 0; i < courses.size(); i++) {
             Course matchCourse = courses.get(i);
             System.out.println(matchCourse.getName() + "   " + codeCours);
-            if (matchCourse.getCode().equals(codeCours)){
+            if (matchCourse.getCode().equals(codeCours)) {
                 return matchCourse;
             }
         }
@@ -122,12 +122,13 @@ public class Client {
         in.close();
         clientSocket.close();
     }
-    /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des 
+
+    /*- F1: une première fonctionnalité qui permet au client de récupérer la liste des
     cours disponibles pour une session donnée. Le client envoie une requête charger
     au serveur. Le serveur doit récupérer la liste des cours du fichier cours.txt et 
     l’envoie au client. Le client récupère les cours et les affiche.*/
     //"REGISTER"
-    public ArrayList<Course> getCourse(String session){
+    public ArrayList<Course> getCourse(String session) {
         ArrayList<Course> courses = null;
         try {
             this.connect();
@@ -135,11 +136,9 @@ public class Client {
             out.flush();
             courses = (ArrayList) in.readObject();
             this.disconnect();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return courses;
@@ -153,7 +152,7 @@ public class Client {
     question. Le serveur ajoute la ligne correspondante au fichier inscription.txt et 
     envoie un message de réussite au client. Le client affiche ce message (ou celui de 
     l’échec en cas d’exception). */
-    public void registerRequest(RegistrationForm form){
+    public void registerRequest(RegistrationForm form) {
         try {
             this.connect();
             out.writeObject("INSCRIRE");
@@ -161,11 +160,9 @@ public class Client {
             out.writeObject(form);
             out.flush();
             this.disconnect();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
