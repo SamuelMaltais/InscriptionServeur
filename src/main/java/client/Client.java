@@ -1,6 +1,5 @@
 package client;
 
-import javafx.scene.shape.VLineTo;
 import server.models.Course;
 import server.models.RegistrationForm;
 
@@ -9,6 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class Client {
     Validation validate = new Validation();
@@ -24,26 +24,23 @@ public class Client {
         displayClasses();
     }
 
-    public void displayClasses(){
+    public void displayClasses() {
         System.out.println("Veuillez choisir la session pour laquelle vous voulez consulter la liste des cours:" + "\n" +
                 "1. Automne" + "\n" + "2.Hiver" + "\n" + "3. Ete" + "\n" + ">Choix: ");
         HashMap<Integer, String> map = new HashMap<>();
         map.put(1, "Automne");
         map.put(2, "Hiver");
         map.put(3, "Ete");
-        int choice = scanner.nextInt();
-        if (map.containsKey(choice)) {
+        try {
+            int choice = scanner.nextInt();
             String session = map.get(choice);
             ArrayList<Course> courses = getCourse(session);
             displayCourses(session, courses);
-        }
-        else {
-            //user input is invalid -> reset
-            System.out.println(String.valueOf(choice) + " n'est pas une option valide");
+        } catch (Exception e){
+            System.out.println("vous avez rentre une option invalide. Reessayez");
+            scanner.nextLine(); //consume incorrect input to prevent loop
             displayClasses();
         }
-
-
     }
 
     public void displayCourses(String session, ArrayList<Course> courses) {
@@ -70,53 +67,38 @@ public class Client {
         }
     }
 
+    public String getUserInput(String prompt, Function<String, Boolean> validateType) {
+        String userInfo;
+        do{
+            System.out.println(prompt);
+            userInfo = scanner.nextLine();
+        } while (!validateType.apply(userInfo));
+        return userInfo;
+    }
+
     public void makeNewRegistration(ArrayList<Course> courses){
-        System.out.println("Veuillez saisir votre prenom: ");
-        scanner.nextLine();
-        String prenom = scanner.nextLine();
-        while(!validate.validateName(prenom)){
-            System.out.println("Veuillez saisir un prenom valide: ");
-            prenom = scanner.nextLine();
-        }
+        scanner.nextLine(); //consume
+        String prenom = getUserInput("Veuillez saisir votre prenom: ", validate::validateName);
+        String nom = getUserInput("Veuillez saisr votre Nom: ", validate::validateName);
+        String email = getUserInput("Veuillez saisir votre email: ", validate::validateEmail);
+        String matricule = getUserInput("Veuillez saisir votre matricule: ", validate::validateMatricule);
+        Course course = fetchCourse(courses);
 
-        System.out.println("Veuillez saisir votre nom: ");
-        String nom = scanner.nextLine();
-        while(!validate.validateName(nom)){
-            System.out.println("Veuillez saisir un nom valide: ");
-            nom = scanner.nextLine();
-        }
-
-        System.out.println("Veuillez saisir votre email: ");
-        String email = scanner.nextLine();
-        while(!validate.validateEmail(email)){
-            System.out.println("Veuillez saisir un email valide: ");
-            email = scanner.nextLine();
-        }
-
-        System.out.println("Veuillez saisir votre matricule: ");
-        String matricule = scanner.nextLine();
-        while(!validate.validateMatricule(matricule)){
-            System.out.println("Veuillez saisir une matricule valide: ");
-            matricule = scanner.nextLine();
-        }
-
-        String codeCours = getCode();
-        Course course = findCourse(codeCours, courses);
-        while (course == null){
-            System.out.println(codeCours + " n'est pas un code de cours valide");
-            codeCours = getCode();
-            course = findCourse(codeCours, courses);
-        }
         RegistrationForm registrationForm = new RegistrationForm(prenom, nom, email, matricule, course);
         registerRequest(registrationForm);
-        System.out.println("Felicitation! Inscription reussie de " + prenom + " au cours " + codeCours + ".");
+        System.out.println("Felicitation! Inscription reussie de " + prenom + " au cours " + course.getCode() + ".");
     }
 
-    public String getCode(){
-        System.out.println("Veuillez saisir le code du cours: ");
-        String codeCours = scanner.nextLine();
-        return codeCours;
+    public Course fetchCourse(ArrayList<Course> courses){
+        Course course;
+        do {
+            System.out.println("Veuillez saisir le code du cours: ");
+            String codeCours = scanner.nextLine();
+            course = findCourse(codeCours, courses);
+        } while (course == null);
+        return course;
     }
+
     public Course findCourse(String codeCours, ArrayList<Course> courses){
         for (int i = 0; i < courses.size(); i++) {
             Course matchCourse = courses.get(i);
