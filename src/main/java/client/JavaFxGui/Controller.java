@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class Controller extends Application {
     /**
-     * Starts the UI and initializes ChoiceBox values
+     * Démarre l'Interface et initialise les choix de session pour le bouton déroulant.
      *
      * @param primaryStage
      */
