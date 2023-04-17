@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class Controller extends Application {
     /**
-     * Starts the UI and initializes ChoiceBox values
+     * Commence le UI et initialise les valeures de ChoiceBox
      *
      * @param primaryStage
      */
@@ -16,10 +16,12 @@ public class Controller extends Application {
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
         try {
+            // Load l'object FXML baseScene comme la racine
             loader.setLocation(getClass().getResource("/JavaFxGui/baseScene.fxml"));
             SplitPane splitPane = loader.<SplitPane>load();
             Scene scene = new Scene(splitPane);
             primaryStage.setScene(scene);
+            // Ajoute les valeures pour le ChoiceBox
             ChoiceBox chooseSession = (ChoiceBox) loader.getNamespace().get("chooseSession");
             chooseSession.getItems().add("Automne");
             chooseSession.getItems().add("Été");
@@ -34,5 +36,3 @@ public class Controller extends Application {
         launch(args);
     }
 }
-
-
