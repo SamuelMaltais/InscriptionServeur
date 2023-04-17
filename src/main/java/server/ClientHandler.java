@@ -5,7 +5,6 @@ import server.models.Course;
 import server.models.RegistrationForm;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,10 +34,8 @@ public class ClientHandler implements Runnable {
      * Constructeur qui initialise le socket serveur et la liste des gestionnaires
      * d'événements.
      *
-     * @param port numéro de port sur lequel le serveur doit écouter les connexions
+     * @param socket numéro de port sur lequel le serveur doit écouter les connexions
      *             de clients.
-     * @throws IOException si une erreur se produit lors de la création du socket
-     *                     serveur.
      */
     public ClientHandler(Socket socket) {
         this.handlers = new ArrayList<EventHandler>();
@@ -72,17 +69,15 @@ public class ClientHandler implements Runnable {
      * commandes.
      */
     public void run() {
-        while (true) {
-            try {
-                System.out.println("Connecté au client: " + client);
-                objectInputStream = new ObjectInputStream(client.getInputStream());
-                objectOutputStream = new ObjectOutputStream(client.getOutputStream());
-                listen();
-                disconnect();
-                System.out.println("Client déconnecté!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            System.out.println("Connecté au client: " + client);
+            objectInputStream = new ObjectInputStream(client.getInputStream());
+            objectOutputStream = new ObjectOutputStream(client.getOutputStream());
+            listen();
+            disconnect();
+            System.out.println("Client déconnecté!");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
