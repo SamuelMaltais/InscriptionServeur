@@ -12,9 +12,12 @@ import server.models.RegistrationForm;
 import java.util.ArrayList;
 
 /**
- * The EventHandler class is responsible for handling events triggered by the user on the GUI.
+ * La classe EventHandler est responsable de la gestion des événements déclenchés par l'utilisateur sur l'interface graphique.
  */
 public class EventHandler {
+    Client client = new Client();
+    Validation validate = new Validation();
+    String session;
     @FXML
     private TableView<Course> table;
     @FXML
@@ -25,25 +28,19 @@ public class EventHandler {
     private TextField email;
     @FXML
     private TextField matricule;
-    Client client = new Client();
-    Validation validate = new Validation();
-    String session;
-    //Fxml id for session choice
     @FXML
     private ChoiceBox<String> chooseSession;
-    //Fxml ids for display code and name
     @FXML
     private TableColumn<Course, String> tableCode;
     @FXML
     private TableColumn<Course, String> tableClass;
-    //Fxml ids for registrationForm
 
 
     /**
-     * This method is triggered when the user clicks on the "Submit" button.
-     * It retrieves user information and sends a registration request to the server.
+     * Cette méthode est déclenchée lorsque l'utilisateur clique sur le bouton "Soumettre".
+     * Elle récupère les informations de l'utilisateur et envoie une demande d'inscription au serveur.
      *
-     * @param actionEvent not used and provided by default.
+     * @param actionEvent non utilisé et fourni par défaut.
      */
     public void submitRequest(javafx.event.ActionEvent actionEvent) {
         String firstName = this.firstName.getText();
@@ -84,10 +81,10 @@ public class EventHandler {
     }
 
     /**
-     * This method is triggered when the user clicks on the charger button.
-     * It receives the courses from the server and displays them on the tableView.
+     * Cette méthode est déclenchée lorsque l'utilisateur clique sur le bouton "Charger".
+     * Elle reçoit les cours du serveur et les affiche dans le TableView.
      *
-     * @param actionEvent The event triggered by the user clicking the charger button.
+     * @param actionEvent L'événement déclenché par l'utilisateur en cliquant sur le bouton "Charger".
      */
     public void displayCourses(javafx.event.ActionEvent actionEvent) {
         try {
@@ -115,7 +112,7 @@ public class EventHandler {
     /**
      * Change la session lorsque le choiceBox est utilisé.
      *
-     * @param actionEvent
+     * @param actionEvent fourni par défaut.
      */
     public void ChangedSessionChoice(ActionEvent actionEvent) {
         this.session = chooseSession.getSelectionModel().getSelectedItem();

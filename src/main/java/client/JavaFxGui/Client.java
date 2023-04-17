@@ -10,9 +10,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * The Client class represents a client application that communicates with a server over a network using sockets.
- * It provides methods to connect and disconnect from the server, get courses for a given session, and send registration
- * requests to the server.
+ * La classe Client représente une application cliente qui communique avec un serveur via un réseau en utilisant des sockets.
+ * Elle fournit des méthodes pour se connecter et se déconnecter du serveur, obtenir les cours pour une session donnée, et envoyer des demandes d'inscription au serveur.
  */
 public class Client {
     private Socket clientSocket;
@@ -22,33 +21,33 @@ public class Client {
     private ObjectInputStream in;
 
     /**
-     * Connects to the server
+     * Se connecte au serveur.
      *
-     * @throws IOException            if an I/O error occurs when creating the socket or streams.
-     * @throws ClassNotFoundException if the class of the serialized object received from the server cannot be found.
+     * @throws IOException si une erreur d'E/S se produit lors de la création du socket ou des flux.
+     * @throws ClassNotFoundException si la classe de l'objet sérialisé reçu du serveur ne peut pas être trouvée.
      */
-    public void connect() throws IOException {
+    private void connect() throws IOException {
         clientSocket = new Socket(IP, PORT);
         out = new ObjectOutputStream(clientSocket.getOutputStream());
         in = new ObjectInputStream(clientSocket.getInputStream());
     }
 
     /**
-     * Disconnects from the server
+     * Se déconnecte du serveur.
      *
-     * @throws IOException if an I/O error occurs when closing the socket or streams.
+     * @throws IOException si une erreur d'E/S se produit lors de la fermeture du socket ou des flux.
      */
-    public void disconnect() throws IOException {
+    private void disconnect() throws IOException {
         out.close();
         in.close();
         clientSocket.close();
     }
 
     /**
-     * Gets a list of courses for a given session from the server.
+     * Obtient une liste de cours pour une session donnée à partir du serveur.
      *
-     * @param session the session for which to retrieve courses.
-     * @return an ArrayList of Course objects representing the courses available for the given session.
+     * @param session la session pour laquelle récupérer les cours.
+     * @return une ArrayList d'objets Course représentant les cours disponibles pour la session donnée.
      */
     public ArrayList<Course> getCourse(String session) {
         ArrayList<Course> courses = null;
@@ -71,9 +70,9 @@ public class Client {
     }
 
     /**
-     * Sends a registration form to the server to be processed.
+     * Envoie un formulaire d'inscription au serveur pour traitement.
      *
-     * @param form the registration form to be sent.
+     * @param form le formulaire d'inscription à envoyer.
      */
     public void registerRequest(RegistrationForm form) {
         try {

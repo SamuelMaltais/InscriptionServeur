@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"client.JavaFxGui","l":"Client"},{"p":"client.JavaFxGui","l":"Controller"},{"p":"client.JavaFxGui","l":"EventHandler"},{"p":"client.JavaFxGui","l":"Laucher"},{"p":"client.JavaFxGui","l":"Validation"}];updateSearchResults();

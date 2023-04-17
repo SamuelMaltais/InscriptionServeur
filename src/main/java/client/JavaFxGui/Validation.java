@@ -1,14 +1,14 @@
 package client.JavaFxGui;
 
 /**
- * Cette classe valide differents strings pour assurer des bons inputs du form et contient les champs incorrect.
+ * Cette classe vérifie differents strings pour s'assurer qu'ils respectent le format approprié.
  */
 public class Validation {
     /**
-     * Validates if a given string respects the format of a name.
+     * Vérifie si un string respecte le format usuel d'un nom.
      *
-     * @param name the name to be validated
-     * @return true if the name is valid, false otherwise
+     * @param name nom à être validé.
+     * @return true si correspond au format, false sinon.
      */
     public String errors = "";
 
@@ -21,7 +21,10 @@ public class Validation {
     }
 
     /**
-     * Same as first method but for emails
+     * Vérifie si un string respecte le format usuel d'un email.
+     *
+     * @param email email à être validé.
+     * @return true si correspond au format, false sinon.
      */
     public boolean validateEmail(String email) {
         String pattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
@@ -32,7 +35,10 @@ public class Validation {
     }
 
     /**
-     * Same as first method but for a matricule (student code)
+     * Vérifie si un string respecte le format usuel d'une matricule étudiant.
+     *
+     * @param matricule matricule à être validé.
+     * @return true si correspond au format, false sinon.
      */
     public boolean validateMatricule(String matricule) {
         String pattern = "^[0-9]{8}$";
