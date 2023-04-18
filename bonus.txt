@@ -1,0 +1,16 @@
+La modification pour rendre le serveur multithreaded ont été les suivantes:
+
+la classe Serveur.java avait auparavant le flow:
+accept -> listen -> disconnect
+Ce qui ne fonctionne pas avec cela est que le code entier devient pris
+a la partie listen du code et ne peut pas refaire accept en meme temps.
+
+nous avons donc separé la partie listen qui contient les handlers et donc
+la majorite du code dans la classe ClientHandler et on cree une instance
+de ce ClientHandler pour chaque client parrallèle que nous avons.
+
+Pour faire cela le ClientHandler implémente l'interface runnable qui lui permet
+d'être exucutée sur un thread différent.
+
+Le code Serveur.java fait donc seulement accepter les clients et immediatement ouvrir un
+thread avec un ClientHandler qui lui sera assigné.
