@@ -5,6 +5,7 @@ import server.models.Course;
 import server.models.RegistrationForm;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,7 +164,6 @@ public class ClientHandler implements Runnable {
                 String data = myReader.nextLine();
                 String[] strArr = data.split("\t");
                 if (strArr[2].equals(arg)) {
-                    System.out.println("Added course: " + strArr[0]);
                     cours.add(new Course(strArr[1], strArr[0], strArr[2]));
                 }
             }

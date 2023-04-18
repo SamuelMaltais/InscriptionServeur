@@ -43,7 +43,7 @@ public class Client {
      * @throws IOException si une erreur d'E/S se produit lors de la fermeture du
      *                     socket ou des flux.
      */
-    private void disconnect() throws IOException {
+    public void disconnect() throws IOException {
         out.close();
         in.close();
         clientSocket.close();

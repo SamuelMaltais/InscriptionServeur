@@ -14,24 +14,13 @@ class Server {
         ServerSocket server = null;
 
         try {
-
-            // server is listening on port 1234
+            //On initie le serveur
             server = new ServerSocket(port);
             server.setReuseAddress(true);
-            // running infinite loop for getting
-            // client request
+            //Loop qui recupere tous les nouvelles requetes
             while (true) {
 
-                // socket object to receive incoming client
-                // requests
                 Socket client = server.accept();
-
-                // Displaying that new client is connected
-                // to server
-                System.out.println("New client connected"
-                        + client.getInetAddress()
-                                .getHostAddress());
-
                 // create a new thread object
                 ClientHandler clientSock = new ClientHandler(client);
 
