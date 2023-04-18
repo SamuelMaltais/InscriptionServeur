@@ -1,2 +1,6 @@
 Automne	IFT2255	12345678	Michalis	Famelis	mfamelis@iro.umontreal.ca
-Ete	IFT2256	20244618	Samuel	Maltais	leumasmontreal@hotmail.com
+Ete	IFT2256	20244618	Samuel	Maltais	leumasmontreal@hotmail.comAutomne	IFT2255	12345678	Bob	Ross	bob.ross@gmail.com
+Automne	IFT2255	12345678	Bob	Ross	bob.ross@gmail.com
+Automne	IFT2255	12345678	Bob	Ross	bob.ross@gmail.com
+Automne	IFT1015	12345678	Jean	Guy	jean.guy@email.com
+Automne	IFT1015	12345678	Felix	Tremblay	jean.guy@email.com

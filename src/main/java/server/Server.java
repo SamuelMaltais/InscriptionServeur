@@ -2,7 +2,7 @@ package server;
 
 import java.io.*;
 import java.net.*;
-
+// MULTITHREAD DEMO DANS JAVADOC FOLDER
 class Server {
     private static int port;
 
